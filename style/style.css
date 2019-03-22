@@ -1,0 +1,208 @@
+*{
+	box-sizing: border-box;
+	font-family: Cutive Mono;
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-size: 15px;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for main */
+.main {
+	display: flex;
+	flex-direction: column;
+	/* establecemos el mínimo de height para que pueda aumentar. vh = viewport height (altura de la vista-pantalla).
+	Esto afecta al flex-grow (flex) del div de contenido que hará que siempre se ajuste a la pantalla aunque crezca de tamaño */
+	min-height: 100vh;
+	padding: 2px 100px;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for the header */
+.header {
+	text-align: center;
+	background-color: #c0dfd9;
+	padding: 50px;
+	font-size: 30px;
+	color: #ffffff;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for the topnav navigation bar */
+.topnav {
+	display: flex;
+	justify-content: center;
+
+	background-color: #e9ece5;
+	text-align: center;
+	padding: 14px 16px;
+
+	position: sticky;
+	top: 0;
+
+	outline: solid;
+	outline-color: white;
+}
+
+/* style for the unordered-list on topnav */
+.topnav ul{
+	display: flex;
+	flex-direction: row;
+	list-style-type: none;
+}
+
+.topnav ul li {
+	position: relative;
+}
+
+/* style for the topnav links */
+.topnav ul li a {
+	color: #3b3a36;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.topnav ul li a:hover {
+	background-color: #3b3a36;
+	color: white;
+	font-weight: normal;
+}
+
+.topnav ul li ul {
+	display: none;
+	position: absolute;
+	background-color: #c0dfd9;
+	width: 150px;
+}
+
+.topnav ul li:hover ul{
+	display: block;
+	margin-top: 16px;
+}
+
+.topnav ul li ul li a {
+	display: block;
+	color: #3b3a36;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.topnav ul li ul li a:hover {
+	background-color: #3b3a36;
+	color: white;
+	font-weight: normal;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for content */
+.content {
+	display: flex;
+	flex-direction: column;
+	/* en caso de que la página aumente su height, el atributo flex-grow (ya especificado con un 1 en flex), hará que el div padre aumente en la misma proporción. */
+	flex: 1 0 auto;
+	justify-content: center;
+	align-items: center;
+
+	text-align: center;
+	background-color: white;
+	padding: 5%;
+}
+
+/* style for headers3 */
+.content h3 {
+	padding: 14px 16px;
+}
+
+/* style for parragraphs */
+.content p {
+	padding: 14px 16px;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for login-signup form */
+form#login-signup{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/* style for search form */
+form#search{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/* style for form error messages */
+.red-error{
+	color: #ff0000; /* red */
+	font-weight: bold;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for input fields */
+input {
+	margin: 10px 0;
+	padding: 4px 6px;
+	border: 1px solid #b3c2bf;
+	border-radius: 2px;
+	cursor: pointer;
+	background-color: #e9ece5;
+	color: black;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for search-form selection */
+select{
+	margin: 10px 0;
+	padding: 4px 14px;
+	border: 1px solid #b3c2bf;
+	border-radius: 2px;
+	background-color: #e9ece5;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for form buttons */
+button {
+	background-color: #c0dfd9;
+	border: none;
+	color: black;
+	margin-top: 10px;
+	padding: 8px 10px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 2px;
+	font-weight: bold;
+}
+
+/* change color when over hoverable buttons */
+button:hover{
+	background-color: #e9ece5;
+	color: black;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+/* style for the footer */
+.footer {
+	text-align: center;
+	background-color: #b3c2bf;
+	color: white;
+	padding: 25px 16px;
+}

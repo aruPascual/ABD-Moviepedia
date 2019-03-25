@@ -5,7 +5,7 @@
 			<ul>
 				<li><a href="buscaPoS.php">Buscar Películas o Series</a></li>
 				<li><a href="buscaActor.php">Buscar Actores</a></li>
-				<li><a href="buscaDir.php">Buscar Director</a></li>
+				<li><a href="buscaPD.php">Buscar Director</a></li>
 			</ul>
 		</li>
 		<?php

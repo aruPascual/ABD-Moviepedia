@@ -1,25 +1,57 @@
 <?php
-	session_start();
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="style/style.css" />
-	<link href='https://fonts.googleapis.com/css?family=Cutive Mono' rel='stylesheet'>
-</head>
-<body>
-	<div class="main">
-		<?php 
-			require("include/common/header.php");
-			require("include/common/topnav.php");
-		?>
-		<div class="content">
-			<h3>¿Qué buscas?</h3>
-		</div>
-		<?php
-			require("include/common/footer.php");
-		?>
-	</div>
-</body>
-</html>
+
+if (isset($_GET['pors-search'])) {
+	require 'dbh_inc.php';
+
+	$searchType = $_GET['type'];
+	$searchBy = $_GET['search-by'];
+	$dataToSearch = $_GET['data'];
+
+	if (empty($dataToSearch)) {
+		header("Location: ../buscaPoS.php?error=emptyfields");
+		exit;
+	}
+	else{
+
+	}
+
+	mysqli_close($connection);
+	
+}
+else if (isset($_GET['actor-search'])) {
+	require 'dbh_inc.php';
+
+	$searchBy = $_GET['search-by'];
+	$dataToSearch = $_GET['data'];
+
+	if (empty($dataToSearch)) {
+		header("Location: ../buscaActor.php?error=emptyfields");
+		exit;
+	}
+	else{
+
+	}
+
+	mysqli_close($connection);
+
+}
+else if (isset($_GET['pd-search'])) {
+	require 'dbh_inc.php';
+	
+	$searchBy = $_GET['search-by'];
+	$dataToSearch = $_GET['data'];
+
+	if (empty($dataToSearch)) {
+		header("Location: ../buscaActor.php?error=emptyfields");
+		exit;
+	}
+	else{
+
+	}
+
+	mysqli_close($connection);
+
+}else{
+	header("Location: ../main_page.php");
+	exit();
+}

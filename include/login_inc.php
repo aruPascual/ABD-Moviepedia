@@ -53,6 +53,7 @@ if (isset($_POST['login-submit'])) {
 			}
 		}
 	}
+	mysqli_close($connection);
 }
 else{
 	header("Location: ../main_page.php");

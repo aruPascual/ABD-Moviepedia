@@ -130,7 +130,7 @@ body{
 /*-------------------------------------------------------------------------------------------------------------------*/
 
 /* style for login-signup form */
-form#login-signup{
+.form{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

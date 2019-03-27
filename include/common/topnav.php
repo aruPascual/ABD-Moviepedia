@@ -9,14 +9,14 @@
 			</ul>
 		</li>
 		<?php
-		if (isset($_SESSION['userId'])) {
-			echo '<li><a href="#" class="perfil">Perfil</a></li>
-			<li><a href="logout.php" class="logout-signup">Logout</a></li>';
-		}
-		else{
-			echo '<li><a href="login.php" class="login-signup">Login</a></li>
-				<li><a href="signup.php" class="header-signup">Regístrate</a></li>';
-		}
+			if ((isset($_SESSION['login']) && ($_SESSION['login']===true))) {
+				echo '<li><a href="#" class="perfil">Perfil</a></li>
+				<li><a href="logout.php" class="logout-signup">Logout</a></li>';
+			}
+			else{
+				echo '<li><a href="login.php" class="login-signup">Login</a></li>
+					<li><a href="signup.php" class="header-signup">Regístrate</a></li>';
+			}
 		?>
 	</ul>
 </div>

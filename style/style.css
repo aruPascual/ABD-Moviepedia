@@ -18,7 +18,7 @@ body{
 	/* establecemos el mínimo de height para que pueda aumentar. vh = viewport height (altura de la vista-pantalla).
 	Esto afecta al flex-grow (flex) del div de contenido que hará que siempre se ajuste a la pantalla aunque crezca de tamaño */
 	min-height: 100vh;
-	padding: 2px 100px;
+	padding: 2px 2px;
 }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
@@ -114,7 +114,7 @@ body{
 
 	text-align: center;
 	background-color: white;
-	padding: 5%;
+	padding: 2%;
 }
 
 /* style for headers3 */

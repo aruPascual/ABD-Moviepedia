@@ -51,6 +51,7 @@ class formularioRegistro extends Form{
             } else {
                 $_SESSION['login'] = true;
                 $_SESSION['nombre'] = $username;
+                $_SESSION['rol'] = $usuario->rol();
                 return "main_page.php";
             }
         }

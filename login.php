@@ -1,5 +1,4 @@
 <?php
-	/*session_start();*/
 	require("include/loginForm.php");
 	require("include/config.php")
 ?>

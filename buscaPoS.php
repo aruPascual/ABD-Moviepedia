@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	require_once("include/config.php");
+	require_once("include/searchPoSForm.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,19 @@
 		?>
 		<div class="content">
 			<h3>¿Buscas una película o una serie?</h3>
-			<form id="search" action="include/busqueda_inc.php" method="get">
+			<?php
+				$formulario = new formularioBusquedaPoS("search", array('action' => 'searchPoSForm.php'));
+				$formulario->gestiona();
+			?>
+		</div>
+		<?php
+			require("include/common/footer.php");
+		?>
+	</div>
+</body>
+</html>
+
+<!--<form id="search" action="include/busqueda_inc.php" method="get">
 				<select name="type">
 					<option value="film">Película</option>
 					<option value="serie">Serie</option>
@@ -36,11 +49,4 @@
 				?>
 				<input type="text" name="data">
 				<button type="submit" name="pors-search">Buscar</button>
-			</form>
-		</div>
-		<?php
-			require("include/common/footer.php");
-		?>
-	</div>
-</body>
-</html>
+			</form>-->

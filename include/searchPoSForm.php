@@ -1,8 +1,8 @@
 <?php
 require_once('form.php');
 require_once('usuario.php');
-class formularioLogin extends Form{
-    public function  __construct($formId, $opciones = array() ){
+class formularioBusquedaPoS extends Form{
+	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
     }
     /**
@@ -13,23 +13,19 @@ class formularioLogin extends Form{
      * @return string HTML asociado a los campos del formulario.
      */
     protected function generaCamposFormulario($datosIniciales){
-		
-        $html = '<div class="form">';
-        $html .= '<input type="text" name="username" placeholder="Username">';
-        $html .= '<input type="password" name="pass" placeholder="Password">';
-        $html .= '<button type="submit" name="login-submit"> Enviar </button>';
-        $html .= '</div>';
-        return $html;
+    	$html = '<div class="form">';
+    	$html .= '<p>¿Cual es el título?</p>';
+    	$html .= '<input type="text" name="data" placeholder="Título">';
+    	$html .= '<button type="submit" name="pors-search">Buscar</button>';
+    	$html .= '</div>';
+    	return $html;
     }
+
     protected function procesaFormulario($datos){
         $erroresFormulario = array();
-        $username = isset($datos['username']) ? $datos['username'] : null;
-        if ( empty($username) ) {
-            $erroresFormulario[] = "El nombre de usuario no puede estar vacío";
-        }
-        $password = isset($datos['pass']) ? $datos['pass'] : null;
-        if ( empty($password) ) {
-            $erroresFormulario[] = "El password no puede estar vacío.";
+        $dataToSearch = isset($datos['data']) ? $datos['data'] : null;
+        if ( empty($dataToSearch) ) {
+            $erroresFormulario[] = "¿Qué quieres buscar? Escríbelo";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
@@ -42,7 +38,7 @@ class formularioLogin extends Form{
                 if ($usuario->compruebaPassword($password)) {
                     $_SESSION['login'] = true;
                     $_SESSION['nombre'] = $username;
-                    $_SESSION['rol'] = $usuario->rol();
+                    $_SESSION['esAdmin'] = strcmp($fila['rol'], 'admin') == 0 ? true : false;
                     return "main_page.php";
                 } else {
                     $erroresFormulario[] = "El usuario o el password no coinciden";

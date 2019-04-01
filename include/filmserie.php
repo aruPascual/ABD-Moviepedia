@@ -38,15 +38,12 @@ class Filmserie {
 	public function episodes() {
 		return $this->episodes;
 	}
-	public function episodes() {
-		return $this->episodes;
-	}
 	public function directedBy() {
 		return $this->directedBy;
 	}
 
 	/* devuelve la peícula o serie buscada por el usuario */
-	public static searchFilmSerie($title) {
+	public static function searchFilmSerie($title) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 		$query = sprintf("SELECT * FROM filmserie FS WHERE FS.title = '%s'", $conn->real_escape_string($title));

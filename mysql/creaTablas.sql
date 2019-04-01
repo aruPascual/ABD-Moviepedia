@@ -25,7 +25,7 @@ CREATE TABLE filmserie (
 	genre varchar(32) NOT NULL,
 	runtime int(32) NOT NULL,
 	episodes int(32) NOT NULL,
-	directedBy int(32)
+	directedBy varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE filmserie ADD PRIMARY KEY(idFilm);

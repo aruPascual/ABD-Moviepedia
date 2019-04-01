@@ -29,10 +29,10 @@ class formularioBusquedaPoS extends Form{
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
-            $usuario = Usuario::buscaUsuario($username);
+            $movie = Filmserie::searchFilmSerie($datos[data]);
 			
-            if (!$usuario) {
-                $erroresFormulario[] = "El usuario o el password no coinciden";
+            if (!$movie) {
+                $erroresFormulario[] = "La película o serie no existe.";
             }
             else{
                 if ($usuario->compruebaPassword($password)) {

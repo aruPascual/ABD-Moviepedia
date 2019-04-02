@@ -1,6 +1,6 @@
 <?php
-require_once('form.php');
-require_once('filmserie.php');
+require_once("include/form.php");
+require_once("include/filmserie.php");
 class formularioInsercionPoS extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
@@ -35,33 +35,33 @@ class formularioInsercionPoS extends Form{
         $erroresFormulario = array();
         $title = isset($datos['title']) ? $datos['title'] : null;
         if ( empty($title) ) {
-            $erroresFormulario[] = "El título de la película o serie no puede estar vacío";
+            $erroresFormulario[] = "<p class='red-error'>El título de la película o serie no puede estar vacío</p>";
         }
         $releaseDate = isset($datos['releaseDate']) ? $datos['releaseDate'] : null;
         if ( empty($releaseDate) ) {
-            $erroresFormulario[] = "La fecha de estreno de la película o serie no puede estar vacía";
+            $erroresFormulario[] = "<p class='red-error'>La fecha de estreno de la película o serie no puede estar vacía</p>";
         }
         $genre = isset($datos['genre']) ? $datos['genre'] : null;
         if ( empty($genre) ) {
-            $erroresFormulario[] = "El género de la película o serie no puede estar vacío";
+            $erroresFormulario[] = "<p class='red-error'>El género de la película o serie no puede estar vacío</p>";
         }
         $runtime = isset($datos['runtime']) ? $datos['runtime'] : null;
         if ( empty($runtime) ) {
-            $erroresFormulario[] = "La duración de la película o serie no puede estar vacía";
+            $erroresFormulario[] = "<p class='red-error'>La duración de la película o serie no puede estar vacía</p>";
         }
         $episodes = isset($datos['episodes']) ? $datos['episodes'] : null;
         if ( empty($episodes) ) {
-            $erroresFormulario[] = "Los episodios de la película o serie no pueden estar vacío";
+            $erroresFormulario[] = "<p class='red-error'>Los episodios de la película o serie no pueden estar vacío</p>";
         }
         $directedBy = isset($datos['directedBy']) ? $datos['directedBy'] : null;
         if ( empty($directedBy) ) {
-            $erroresFormulario[] = "El director de la película o serie no puede estar vacío";
+            $erroresFormulario[] = "<p class='red-error'>El director de la película o serie no puede estar vacío</p>";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
             $movie = Filmserie::create($title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
 			if(!$movie) {
-                $erroresFormulario[] = "El título de la película o serie ya existe";
+                $erroresFormulario[] = "<p class='red-error'>Ya existe esta película o serie</p>";
             }
             else{
                 return "main_page.php";

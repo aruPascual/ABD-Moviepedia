@@ -1,4 +1,3 @@
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -25,7 +24,7 @@ CREATE TABLE filmserie (
 	genre varchar(32) NOT NULL,
 	runtime int(32) NOT NULL,
 	episodes int(32) NOT NULL,
-	directedBy varchar(32) NOT NULL
+	directedBy int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE filmserie ADD PRIMARY KEY(idFilm);
@@ -36,7 +35,7 @@ ALTER TABLE filmserie MODIFY idFilm int(32) NOT NULL AUTO_INCREMENT;
 CREATE TABLE actor (
 	idActor int(32) NOT NULL,
 	name varchar(64) NOT NULL,
-	birtDate date
+	birthDate date
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE actor ADD PRIMARY KEY (idActor);
@@ -47,12 +46,15 @@ ALTER TABLE actor MODIFY idActor int(32) NOT NULL AUTO_INCREMENT;
 CREATE TABLE  pd (
 	idPd int(32) NOT NULL,
 	name varchar(64) NOT NULL,
-	birtDate date
+	birthDate date
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE pd ADD PRIMARY KEY (idPd);
 
 ALTER TABLE pd MODIFY idPd int(32) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE filmserie 
+	ADD CONSTRAINT filmserie_ibfk_1 FOREIGN KEY (directedBy) REFERENCES pd (idPd);
 
 /*--Tabla del elenco--*/
 CREATE TABLE cast (

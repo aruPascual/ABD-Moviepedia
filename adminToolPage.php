@@ -1,6 +1,7 @@
 <?php
 	require_once("include/searchPoSForm.php");
 	require_once("include/insertPoSForm.php");
+	require_once("include/insertPdForm.php");
 	require_once("include/config.php");
 ?>
 <!DOCTYPE html>
@@ -23,6 +24,8 @@
 				$formularioInsercionPoS = new formularioInsercionPoS("insercionPoS", array( 'action' => 'adminToolPage.php'));
 				$formularioInsercionPoS->gestiona();
 				echo '<h4>¿O un actor o actriz?</h4>';
+				$formularioInsercionPoS = new formularioInsercionPd("insercionPd", array( 'action' => 'adminToolPage.php'));
+				$formularioInsercionPoS->gestiona();
 
 				echo '<h4>¿O un director?</h4>';
 			?>

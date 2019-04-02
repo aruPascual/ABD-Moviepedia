@@ -1,6 +1,6 @@
 <?php
-require_once('form.php');
-require_once('usuario.php');
+require_once("include/form.php");
+require_once("include/usuario.php");
 class formularioBusquedaPoS extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
@@ -25,14 +25,14 @@ class formularioBusquedaPoS extends Form{
         $erroresFormulario = array();
         $dataToSearch = isset($datos['data']) ? $datos['data'] : null;
         if ( empty($dataToSearch) ) {
-            $erroresFormulario[] = "¿Qué quieres buscar? Escríbelo";
+            $erroresFormulario[] = "<p class='red-error'>¿Qué quieres buscar? Escríbelo</p>";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
             $movie = Filmserie::searchFilmSerie($datos[data]);
 			
             if (!$movie) {
-                $erroresFormulario[] = "La película o serie no existe.";
+                $erroresFormulario[] = "<p class='red-error'>La película o serie no existe.</p>";
             }
             else{
                 if ($usuario->compruebaPassword($password)) {
@@ -41,7 +41,7 @@ class formularioBusquedaPoS extends Form{
                     $_SESSION['esAdmin'] = strcmp($fila['rol'], 'admin') == 0 ? true : false;
                     return "main_page.php";
                 } else {
-                    $erroresFormulario[] = "El usuario o el password no coinciden";
+                    $erroresFormulario[] = "<p class='red-error'>El usuario o el password no coinciden</p>";
                 }
             }
         }

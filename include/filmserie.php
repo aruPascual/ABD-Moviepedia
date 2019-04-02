@@ -1,5 +1,6 @@
 <?php
-require_once('aplicacion.php');
+require_once("include/aplicacion.php");
+require_once("include/pd.php");
 class Filmserie {
 	private $id;
 	private $title;
@@ -56,10 +57,10 @@ class Filmserie {
 				$movie->id = $row['idFilm'];
 				$result = $movie;
 			}
-			$rs->free;
+			$rs->free();
 		}
 		else{
-			echo "Error al consultar en la BD: (". $conn->errno .") ". utf8_encode($conn->errno);
+			echo "<p class='red-error'>Error al consultar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
 			exit();
 		}
 		return $result;
@@ -71,7 +72,19 @@ class Filmserie {
 		if ($movie) {
 			return false;
 		}
-		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
+		$pd = Pd::searchPd($directedBy);
+		if (!$pd) {
+			$pd = Pd::create($directedBy, $releaseDate);
+		}
+		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $pd->id());
+		return self::save($movie);
+	}
+
+	/*actualiza o inserta*/
+	public static function save($movie) {
+		if ($movie->id !== null) {
+			return self::update($movie);
+		}
 		return self::insert($movie);
 	}
 
@@ -80,7 +93,7 @@ class Filmserie {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 		$query = sprintf("INSERT INTO filmserie(title, releaseDate, genre, runtime, episodes, directedBy)
-			VALUES('%s','%s','%s','%d','%d','%s')"
+			VALUES('%s','%s','%s','%d','%d','%d')"
 			, $conn->real_escape_string($movie->title)
 			, $conn->real_escape_string($movie->releaseDate)
 			, $conn->real_escape_string($movie->genre)
@@ -91,7 +104,33 @@ class Filmserie {
 			$movie->id = $conn->insert_id;
 		}
 		else{
-			echo "Error al insertar en la BD: (". $conn->errno .") ". utf8_encode($conn->errno);
+			echo "<p class='red-error'>Error al insertar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno)."</p>";
+			exit();
+		}
+		return $movie;
+	}
+
+	/*actualiza una fila de la base de datos*/
+	private static function update($movie) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("UPDATE filmserie SET title='%s', releaseDate='%s', genre='%s', runtime='%d', episodes='%d', directedBy='%d')
+			WHERE idFilm='%i'"
+			, $conn->real_escape_string($movie->title)
+			, $conn->real_escape_string($movie->releaseDate)
+			, $conn->real_escape_string($movie->genre)
+			, $conn->real_escape_string($movie->runtime)
+			, $conn->real_escape_string($movie->episodes)
+			, $conn->real_escape_string($movie->directedBy)
+			, $movie->id);
+		if ($conn->query($query)) {
+			if ($conn->affected_rows !== 1) {
+				echo "<p class='red-error'>No se ha podide actualizar: ". $movie->id . " </p>";
+				exit();
+			}
+		}
+		else{
+			echo "<p class='red-error'>Error al actualizar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
 			exit();
 		}
 		return $movie;

@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	require_once("include/config.php");
+	require_once("include/searchPdForm.php");
+	require_once("include/pd.php");	
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,23 +17,19 @@
 			require("include/common/topnav.php");
 		?>
 		<div class="content">
-			<h3>¿Buscas a un director en particular?</h3>
-			<form id="search" action="include/busqueda_inc.php" method="get">
-				<p>¿Cómo deseas hacer la búsqueda?</p>
-				<select name="search-by">
-					<option value="nombre">Nombre</option>
-					<option value="birth-date">Fecha de nacimiento</option>
-				</select>
-				<?php
-					if (isset($_GET['error'])) {
-						if ($_GET['error'] == "emptyfields") {
-							echo '<p class="red-error">¡Si no escribes nada no sabemos que buscar!</p>';
-						}
-					}
-				?>
-				<input type="text" name="data">
-				<button type="submit" name="pd-search">Buscar</button>
-			</form>
+			<?php
+				if (isset($_GET['pdName']) && ($_GET['pdName'] != null)) {
+					$pd = Pd::searchPd($_GET['pdName']);
+					Pd::print($pd);
+				}
+				else {
+			?>
+					<h3>¿Buscas a un director en particular?</h3>
+			<?php
+					$formulario = new formularioBusquedaPd("search", array('action' => "buscaPd.php"));
+					$formulario->gestiona();
+				}
+			?>
 		</div>
 		<?php
 			require("include/common/footer.php");

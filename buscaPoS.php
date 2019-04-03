@@ -1,6 +1,7 @@
 <?php
 	require_once("include/config.php");
 	require_once("include/searchPoSForm.php");
+	require_once("include/filmserie.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,10 +17,18 @@
 			require("include/common/topnav.php");
 		?>
 		<div class="content">
-			<h3>¿Buscas una película o una serie?</h3>
 			<?php
-				$formulario = new formularioBusquedaPoS("search", array('action' => 'searchPoSForm.php'));
-				$formulario->gestiona();
+				if (isset($_GET['title']) && ($_GET['title'] != null)) {
+					$movie = FilmSerie::searchFilmserie($_GET['title']);
+					FilmSerie::print($movie);
+				}
+				else{
+			?>
+					<h3>¿Buscas una película o una serie?</h3>
+			<?php
+					$formulario = new formularioBusquedaPoS("search", array('action' => 'buscaPoS.php'));
+					$formulario->gestiona();
+				}
 			?>
 		</div>
 		<?php
@@ -28,25 +37,3 @@
 	</div>
 </body>
 </html>
-
-<!--<form id="search" action="include/busqueda_inc.php" method="get">
-				<select name="type">
-					<option value="film">Película</option>
-					<option value="serie">Serie</option>
-				</select>
-				<p>¿Cómo deseas hacer la búsqueda?</p>
-				<select name="search-by">
-					<option value="title">Título</option>
-					<option value="genre">Género</option>
-					<option value="pd">Director</option>
-				</select>
-				<?php
-					if (isset($_GET['error'])) {
-						if ($_GET['error'] == "emptyfields") {
-							echo '<p class="red-error">¡Si no escribes nada no sabemos que buscar!</p>';
-						}
-					}
-				?>
-				<input type="text" name="data">
-				<button type="submit" name="pors-search">Buscar</button>
-			</form>-->

@@ -127,6 +127,23 @@ body{
 	padding: 14px 16px;
 }
 
+/* style for searched info div*/
+.print {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.print-movies {
+	display: flex;
+	flex-direction: column;
+}
+
+/*style for the parragraphs whe searching*/
+.label {
+	font-weight: bold;
+}
+
 /*-------------------------------------------------------------------------------------------------------------------*/
 
 /* style for login-signup form */

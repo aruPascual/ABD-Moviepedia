@@ -66,6 +66,38 @@ class Filmserie {
 		return $result;
 	}
 
+	/* muestra por pantalla una pelicula o serie */
+	public static function print($movie) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT name FROM filmserie JOIN pd WHERE idFilm = '%d' AND directedBy = idPd"
+			, $conn->real_escape_string($movie->directedBy));
+		$rs = $conn->query($query);
+		$row = mysqli_fetch_assoc($rs);
+		$pdName = $row['name'];
+
+		echo <<< END
+		<div class="print">
+		<p class="label">Título: </p>$movie->title
+		</div>
+		<div class="print">
+		<p class="label">Fecha de estreno: </p>$movie->releaseDate
+		</div>
+		<div class="print">
+		<p class="label">Género: </p>$movie->genre
+		</div>
+		<div class="print">
+		<p class="label">Duración: </p>$movie->runtime mins
+		</div>
+		<div class="print">
+		<p class="label">Número de episodios: </p>$movie->episodes
+		</div>
+		<div class="print">
+		<p class="label">Dirigida por: </p>$pdName
+		</div>
+		END;
+	}
+
 	/* crea una nueva película o serie según los datos introducidos por parámetro*/
 	public static function create($title, $releaseDate, $genre, $runtime, $episodes, $directedBy) {
 		$movie = self::searchFilmSerie($title);
@@ -76,12 +108,12 @@ class Filmserie {
 		if (!$pd) {
 			$pd = Pd::create($directedBy, $releaseDate);
 		}
-		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $pd->id());
-		return self::save($movie);
+		return self::save($title, $releaseDate, $genre, $runtime, $episodes, $pd->id());
 	}
 
 	/*actualiza o inserta*/
-	public static function save($movie) {
+	public static function save($title, $releaseDate, $genre, $runtime, $episodes, $directedBy) {
+		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
 		if ($movie->id !== null) {
 			return self::update($movie);
 		}

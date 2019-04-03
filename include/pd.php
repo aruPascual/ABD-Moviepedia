@@ -1,5 +1,6 @@
 <?php
 require_once("include/aplicacion.php");
+require_once("include/filmserie.php");
 class Pd {
 	private $id;
 	private $name;
@@ -44,6 +45,41 @@ class Pd {
 		}
 		return $result;
 	}
+	/* muestra por pantalla la información de un director */
+	public static function print($pd){
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT DISTINCT title FROM pd JOIN filmserie WHERE directedBy = '%d' ORDER BY releaseDate"
+			, $conn->real_escape_string($pd->id));
+		$rs = $conn->query($query);
+
+		echo <<< END
+		<div class="print">
+		<p class="label">Nombre: </p>$pd->name
+		</div>
+		<div class="print">
+		<p class="label">Fecha de nacimiento: </p>$pd->birthDate
+		</div>
+		END;
+		if ($rs) {
+			if ($rs->num_rows > 0) {
+				echo <<< END
+				<div class="print">
+				<p class="label">Películas y series dirigidas por </p>$pd->name 
+				</div>
+				<div class="print-movies">
+				END;
+				$i = 0;
+				while ($row = mysqli_fetch_assoc($rs)) {
+					echo '<p>- '.$row['title'] . '</p>';
+				}
+				echo '</div>';
+			}
+			else {
+				echo 'Este director parece que no ha dirigido ninguna película.';
+			}
+		}
+	}
 
 	/*crea un nuevo director según los datos introducidos*/
 	public static function create($name, $birthDate) {
@@ -51,12 +87,12 @@ class Pd {
 		if ($pd) {
 			return false;
 		}
-		$pd = new Pd($name, $birthDate);
-		return self::save($pd); 
+		return self::save($name, $birthDate); 
 	}
 
 	/*actualiza o inserta un director*/
-	public static function save($pd) {
+	public static function save($name, $birthDate) {
+		$pd = new Pd($name, $birthDate);
 		if ($pd->id !== null) {
 			return self::update($pd);
 		}

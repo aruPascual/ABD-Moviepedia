@@ -144,6 +144,12 @@ body{
 	font-weight: bold;
 }
 
+/* style for the delete button div */
+.content #deleteForm {
+	margin-top: 15px;
+	border-top: 1px solid black;
+}
+
 /*-------------------------------------------------------------------------------------------------------------------*/
 
 /* style for login-signup form */

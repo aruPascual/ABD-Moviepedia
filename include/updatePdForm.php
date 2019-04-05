@@ -1,25 +1,19 @@
 <?php
 require_once("include/form.php");
 require_once("include/pd.php");
-class formularioInsercionPd extends Form{
+class formularioActualizacionPd extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
     }
-    /**
-     * Genera el HTML necesario para presentar los campos del formulario.
-     *
-     * @param string[] $datosIniciales Datos iniciales para los campos del formulario (normalmente <code>$_POST</code>).
-     * 
-     * @return string HTML asociado a los campos del formulario.
-     */
+    
     protected function generaCamposFormulario($datosIniciales){
     	$html = '<div class="form">';
-    	$html .= '<p>¿Cuál es su nombre?</p>';
-    	$html .= '<input type="text" name="name" placeholder="Nombre">';
-        $html .= '<p>¿Cuál es la fecha de nacimiento?</p>';
+        $html .= '<p>¿El nombre del director es diferente?</p>';
+        $html .= '<input type="text" name="name" placeholder="Nombre">';
+        $html .= '<p>¿Cual es la fecha de nacimiento?</p>';
         $html .= '<input type="date" name="birthDate" placeholder="Fecha de nacimiento">';
-    	$html .= '<button type="submit" name="pd-insert">Insertar</button>';
-    	$html .= '</div>';
+        $html .= '<button type="submit" name="pd-update">Actualizar</button>';
+        $html .= '</div>';
     	return $html;
     }
 
@@ -34,12 +28,16 @@ class formularioInsercionPd extends Form{
             $erroresFormulario[] = "<p class='red-error'>La fecha de nacimiento del director no puede estar vacía</p>";
         }
         if (count($erroresFormulario) === 0) {
-            $pd = Pd::create($name, $birthDate);
-			if(!$pd) {
-                $erroresFormulario[] = "<p class='red-error'>Ya existe este director</p>";
+            $pd = Pd::searchPD($name);
+            if(!$pd) {
+                $erroresFormulario[] = "<p class='red-error'>No existe este director</p>";
             }
             else{
-                return "main_page.php?inserted=".$name;
+                $pdUpdate = Pd::update($pd, $name, $birthDate);
+                if (!$pdUpdate) {
+                    $erroresFormulario[] = "<p class='red-error'>No se ha podido actualizar</p>";
+                }
+                return "main_page.php?updated=".$datos['name'];
             }
         }
         return $erroresFormulario;

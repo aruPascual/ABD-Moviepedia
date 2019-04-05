@@ -15,7 +15,7 @@ class formularioBusquedaPoS extends Form{
     protected function generaCamposFormulario($datosIniciales){
     	$html = '<div class="form">';
     	$html .= '<p>¿Cual es el título?</p>';
-    	$html .= '<input type="text" name="data" placeholder="Título">';
+    	$html .= '<input type="text" name="title" placeholder="Título">';
     	$html .= '<button type="submit" name="pors-search">Buscar</button>';
     	$html .= '</div>';
     	return $html;
@@ -23,19 +23,19 @@ class formularioBusquedaPoS extends Form{
 
     protected function procesaFormulario($datos){
         $erroresFormulario = array();
-        $dataToSearch = isset($datos['data']) ? $datos['data'] : null;
+        $dataToSearch = isset($datos['title']) ? $datos['title'] : null;
         if ( empty($dataToSearch) ) {
             $erroresFormulario[] = "<p class='red-error'>¿Cuál es el título? Escríbelo</p>";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
-            $movie = Filmserie::searchFilmSerie($datos['data']);
+            $movie = Filmserie::searchFilmSerie($datos['title']);
 			
             if (!$movie) {
                 $erroresFormulario[] = "<p class='red-error'>La película o serie no existe.</p>";
             }
             else{
-                 return "buscaPoS.php?title=".$movie->title();
+                 return "buscaPoS.php?title=".$datos['title'];
             }
         }
         return $erroresFormulario;

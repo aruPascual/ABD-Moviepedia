@@ -1,6 +1,7 @@
 <?php
 	require_once("include/config.php");
 	require_once("include/searchPdForm.php");
+	require_once("include/deletePdForm.php");
 	require_once("include/pd.php");	
 ?>
 <!DOCTYPE html>

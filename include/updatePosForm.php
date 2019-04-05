@@ -1,26 +1,26 @@
 <?php
 require_once("include/form.php");
 require_once("include/filmserie.php");
-class formularioInsercionPoS extends Form{
+class formularioActualizacionPoS extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
     }
     
     protected function generaCamposFormulario($datosIniciales){
     	$html = '<div class="form">';
-    	$html .= '<p>¿Cuál es el título?</p>';
+    	$html .= '<p>¿Cuál es el título de la película o sere que vas a actualizar?</p>';
     	$html .= '<input type="text" name="title" placeholder="Título">';
-        $html .= '<p>¿Cuál es la fecha de estreno?</p>';
+        $html .= '<p>¿La fecha de estreno es otra?</p>';
         $html .= '<input type="date" name="releaseDate" placeholder="Fecha de estreno">';       
-        $html .= '<p>¿Cuál es el género?</p>';
+        $html .= '<p>¿Pertenece a otro género?</p>';
         $html .= '<input type="text" name="genre" placeholder="Género">';
-        $html .= '<p>¿Cuál es la duración?</p>';
+        $html .= '<p>¿Dura más o dura menos?</p>';
         $html .= '<input type="number" name="runtime" placeholder="Duración">';
-        $html .= '<p>¿Cuántos episodios tiene?</p>';
+        $html .= '<p>Si tiene más de un episodio es que es una serie, ¿no crees?</p>';
         $html .= '<input type="number" name="episodes" placeholder="Episodios">';
-        $html .= '<p>¿Cuál es el director?</p>';
+        $html .= '<p>¿El director ha cambiado de nombre?</p>';
         $html .= '<input type="text" name="directedBy" placeholder="Director">';
-    	$html .= '<button type="submit" name="pors-insert">Insertar</button>';
+    	$html .= '<button type="submit" name="pors-update">Actualizar</button>';
     	$html .= '</div>';
     	return $html;
     }
@@ -52,13 +52,18 @@ class formularioInsercionPoS extends Form{
             $erroresFormulario[] = "<p class='red-error'>El director de la película o serie no puede estar vacío</p>";
         }
         if (count($erroresFormulario) === 0) {
-            //$app esta incluido en config.php
-            $movie = Filmserie::create($title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
+
+            $movie = Filmserie::searchFilmserie($title);
 			if(!$movie) {
-                $erroresFormulario[] = "<p class='red-error'>Ya existe esta película o serie</p>";
+                $erroresFormulario[] = "<p class='red-error'>Esta película o serie no existe</p>";
             }
             else{
-                return "main_page.php?inserted=".$title;
+                $movieUpdate = Filmserie::update($movie, $title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
+                if (!$movieUpdate) {
+                    $erroresFormulario[] = "<p class='red-error'>No se ha podido actualizar</p>";
+                }
+
+                return "main_page.php?updated=".$title;
             }
         }
         return $erroresFormulario;

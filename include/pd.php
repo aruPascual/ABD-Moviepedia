@@ -49,7 +49,7 @@ class Pd {
 	public static function print($pd){
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
-		$query = sprintf("SELECT DISTINCT title FROM pd JOIN filmserie WHERE directedBy = '%d' ORDER BY releaseDate"
+		$query = sprintf("SELECT DISTINCT title, releaseDate FROM pd JOIN filmserie WHERE directedBy = '%d' ORDER BY releaseDate"
 			, $conn->real_escape_string($pd->id));
 		$rs = $conn->query($query);
 
@@ -71,7 +71,7 @@ class Pd {
 				END;
 				$i = 0;
 				while ($row = mysqli_fetch_assoc($rs)) {
-					echo '<p>- '.$row['title'] . '</p>';
+					echo '<p>- '.$row['title'] . ' (' .$row['releaseDate'] .')</p>';
 				}
 				echo '</div>';
 			}
@@ -87,16 +87,8 @@ class Pd {
 		if ($pd) {
 			return false;
 		}
-		return self::save($name, $birthDate); 
-	}
-
-	/*actualiza o inserta un director*/
-	public static function save($name, $birthDate) {
 		$pd = new Pd($name, $birthDate);
-		if ($pd->id !== null) {
-			return self::update($pd);
-		}
-		return self::insert($pd);
+		return self::insert($pd); 
 	}
 
 	/*inserta un director en la base de datos*/
@@ -117,15 +109,15 @@ class Pd {
 	}
 
 	/*actualiza un director de la base de datos*/
-	private static function update($pd){
+	public static function update($pd, $name, $birthDate){
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
-		$query = sprintf("UPDATE pd SET name='%s', birthDate='%s' WHERE idPd=%i"
-			, $conn->real_escape_string($pd->name)
-			, $conn->real_escape_string($pd->birthDate)
+		$query = sprintf("UPDATE pd SET name='%s', birthDate='%s' WHERE idPd='%d'"
+			, $conn->real_escape_string($name)
+			, $conn->real_escape_string($birthDate)
 			, $pd->id());
 		if ($conn->query($query)) {
-			if ($conn->affected_rows !== 1) {
+			if ($conn->affected_rows != 1) {
 				echo "<p class='red-error'>No se ha podido actualizar: ". $pd->id . "</p>";
 				exit();
 			}
@@ -135,5 +127,19 @@ class Pd {
 			exit();
 		}
 		return $pd;
+	}
+
+	/* elimina un director de la base de datos */
+	public static function deletePd($pdName) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("DELETE FROM pd WHERE name='%s'"
+			, $conn->real_escape_string($pdName));
+		$rs = $conn->query($query);
+		$success = true;
+		if (!$rs) {
+			$success = false;
+		}
+		return $success;
 	}
 }

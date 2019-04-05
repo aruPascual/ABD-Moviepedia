@@ -71,7 +71,7 @@ class Filmserie {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 		$query = sprintf("SELECT name FROM filmserie JOIN pd WHERE idFilm = '%d' AND directedBy = idPd"
-			, $conn->real_escape_string($movie->directedBy));
+			, $conn->real_escape_string($movie->id()));
 		$rs = $conn->query($query);
 		$row = mysqli_fetch_assoc($rs);
 		$pdName = $row['name'];
@@ -108,15 +108,7 @@ class Filmserie {
 		if (!$pd) {
 			$pd = Pd::create($directedBy, $releaseDate);
 		}
-		return self::save($title, $releaseDate, $genre, $runtime, $episodes, $pd->id());
-	}
-
-	/*actualiza o inserta*/
-	public static function save($title, $releaseDate, $genre, $runtime, $episodes, $directedBy) {
-		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $directedBy);
-		if ($movie->id !== null) {
-			return self::update($movie);
-		}
+		$movie = new Filmserie($title, $releaseDate, $genre, $runtime, $episodes, $pd->id());
 		return self::insert($movie);
 	}
 
@@ -143,21 +135,26 @@ class Filmserie {
 	}
 
 	/*actualiza una fila de la base de datos*/
-	private static function update($movie) {
+	public static function update($movie, $title, $releaseDate, $genre, $runtime, $episodes, $directedBy) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
-		$query = sprintf("UPDATE filmserie SET title='%s', releaseDate='%s', genre='%s', runtime='%d', episodes='%d', directedBy='%d')
-			WHERE idFilm='%i'"
-			, $conn->real_escape_string($movie->title)
-			, $conn->real_escape_string($movie->releaseDate)
-			, $conn->real_escape_string($movie->genre)
-			, $conn->real_escape_string($movie->runtime)
-			, $conn->real_escape_string($movie->episodes)
-			, $conn->real_escape_string($movie->directedBy)
+
+		/*buscamos el id del director o lo creamos si no existe*/
+		$pd = Pd::searchPd($directedBy);
+		if (!$pd) {
+			$pd = Pd::create($directedBy, $releaseDate);
+		}
+		$query = sprintf("UPDATE filmserie SET title='%s', releaseDate='%s', genre='%s', runtime='%d', episodes='%d', directedBy='%d' WHERE idFilm='%d'"
+			, $conn->real_escape_string($title)
+			, $conn->real_escape_string($releaseDate)
+			, $conn->real_escape_string($genre)
+			, $conn->real_escape_string($runtime)
+			, $conn->real_escape_string($episodes)
+			, $conn->real_escape_string($pd->id())
 			, $movie->id);
 		if ($conn->query($query)) {
-			if ($conn->affected_rows !== 1) {
-				echo "<p class='red-error'>No se ha podide actualizar: ". $movie->id . " </p>";
+			if ($conn->affected_rows != 1) {
+				echo "<p class='red-error'>No se ha podido actualizar: ". $movie->id . " </p>";
 				exit();
 			}
 		}
@@ -166,5 +163,24 @@ class Filmserie {
 			exit();
 		}
 		return $movie;
+	}
+
+	/* elimina un película o serie de la base de datos */
+	public static function deleteFilmserie($title) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("DELETE FROM filmserie WHERE title='%s'"
+			, $conn->real_escape_string($title));
+		if ($rs = $conn->query($query)) {
+			if ($conn->affected_rows != 1) {
+				echo "<p class='red-error'>No se ha podido eliminar: ". $movie->id . " </p>";
+				exit();
+			}
+		}
+		else{
+			echo "<p class='red-error'>Error al eliminar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $success;
 	}
 }

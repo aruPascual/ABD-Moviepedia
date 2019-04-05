@@ -15,7 +15,7 @@ class formularioBusquedaPd extends Form{
     protected function generaCamposFormulario($datosIniciales){
     	$html = '<div class="form">';
     	$html .= '<p>¿Cual es el nombre del director?</p>';
-    	$html .= '<input type="text" name="data" placeholder="Nombre">';
+    	$html .= '<input type="text" name="name" placeholder="Nombre">';
     	$html .= '<button type="submit" name="pd-search">Buscar</button>';
     	$html .= '</div>';
     	return $html;
@@ -23,19 +23,19 @@ class formularioBusquedaPd extends Form{
 
     protected function procesaFormulario($datos){
         $erroresFormulario = array();
-        $dataToSearch = isset($datos['data']) ? $datos['data'] : null;
+        $dataToSearch = isset($datos['name']) ? $datos['name'] : null;
         if ( empty($dataToSearch) ) {
             $erroresFormulario[] = "<p class='red-error'>¿Cuál es el nombre del director? Escríbelo</p>";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
-            $pd = Pd::searchPd($datos['data']);
+            $pd = Pd::searchPd($datos['name']);
 			
             if (!$pd) {
                 $erroresFormulario[] = "<p class='red-error'>El director no existe.</p>";
             }
             else{
-                 return "buscaPd.php?pdName=".$pd->name();
+                 return "buscaPd.php?pdName=".$datos['name'];
             }
         }
         return $erroresFormulario;

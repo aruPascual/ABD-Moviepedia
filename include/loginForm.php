@@ -43,7 +43,7 @@ class formularioLogin extends Form{
                     $_SESSION['login'] = true;
                     $_SESSION['nombre'] = $username;
                     $_SESSION['rol'] = $usuario->rol();
-                    return "main_page.php";
+                    return "main_page.php?logged_in";
                 } else {
                     $erroresFormulario[] = "El usuario o el password no coinciden";
                 }

@@ -1,6 +1,6 @@
 <?php
-require_once("include/aplicacion.php");
-require_once("include/pd.php");
+require_once("aplicacion.php");
+require_once("pd.php");
 class Filmserie {
 	private $id;
 	private $title;

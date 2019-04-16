@@ -1,6 +1,6 @@
 <?php
-require_once("include/form.php");
-require_once("include/usuario.php");
+require_once("form.php");
+require_once("usuario.php");
 class formularioBusquedaPd extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
@@ -29,13 +29,13 @@ class formularioBusquedaPd extends Form{
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
-            $pd = Pd::searchPd($datos['name']);
+            $pd = Pd::searchPd($dataToSearch);
 			
             if (!$pd) {
                 $erroresFormulario[] = "<p class='red-error'>El director no existe.</p>";
             }
             else{
-                 return "buscaPd.php?pdName=".$datos['name'];
+                 return "buscaPd.php?pdName=".$dataToSearch;
             }
         }
         return $erroresFormulario;

@@ -1,6 +1,6 @@
 <?php
-require_once("include/form.php");
-require_once("include/filmserie.php");
+require_once("form.php");
+require_once("filmserie.php");
 class formularioBorradoPoS extends Form {
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);

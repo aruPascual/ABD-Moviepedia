@@ -1,7 +1,7 @@
 <?php
 require_once("form.php");
 require_once("usuario.php");
-class formularioBusquedaPoS extends Form{
+class formularioBusquedaActor extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
     }
@@ -14,28 +14,28 @@ class formularioBusquedaPoS extends Form{
      */
     protected function generaCamposFormulario($datosIniciales){
     	$html = '<div class="form">';
-    	$html .= '<p>¿Cual es el título?</p>';
-    	$html .= '<input type="text" name="title" placeholder="Título">';
-    	$html .= '<button type="submit" name="pors-search">Buscar</button>';
+    	$html .= '<p>¿Cual es el nombre del actor o actriz?</p>';
+    	$html .= '<input type="text" name="actorName" placeholder="Nombre">';
+    	$html .= '<button type="submit" name="actor-search">Buscar</button>';
     	$html .= '</div>';
     	return $html;
     }
 
     protected function procesaFormulario($datos){
         $erroresFormulario = array();
-        $dataToSearch = isset($datos['title']) ? $datos['title'] : null;
+        $dataToSearch = isset($datos['actorName']) ? $datos['actorName'] : null;
         if ( empty($dataToSearch) ) {
-            $erroresFormulario[] = "<p class='red-error'>¿Cuál es el título? Escríbelo</p>";
+            $erroresFormulario[] = "<p class='red-error'>¿Cuál es el nombre del ator o actriz que estás buscando? Escríbelo</p>";
         }
         if (count($erroresFormulario) === 0) {
             //$app esta incluido en config.php
-            $movie = Filmserie::searchFilmSerie($datos['title']);
+            $actor = Actor::searchActor($dataToSearch);
 			
-            if (!$movie) {
-                $erroresFormulario[] = "<p class='red-error'>La película o serie no existe.</p>";
+            if (!$actor) {
+                $erroresFormulario[] = "<p class='red-error'>El actor o actriz que buscas no existe.</p>";
             }
             else{
-                 return "buscaPoS.php?title=".$datos['title'];
+                 return "buscaActor.php?actorName=".$dataToSearch;
             }
         }
         return $erroresFormulario;

@@ -1,11 +1,5 @@
 <?php
-	require_once("include/config.php");
-	require_once("include/insertPoSForm.php");
-	require_once("include/insertPdForm.php");
-	require_once("include/updatePoSForm.php");
-	require_once("include/updatePdForm.php");
-	require_once("include/deletePoSForm.php");
-	require_once("include/deletePdForm.php");
+	require_once('include/config.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,8 +11,8 @@
 <body>
 	<div class="main">
 		<?php 
-			require("include/common/header.php");
-			require("include/common/topnav.php");
+			require('include/common/header.php');
+			require('include/common/topnav.php');
 		?>
 		<div class="content">
 			<?php
@@ -31,56 +25,34 @@
 				else{
 			?>
 					<h3>Bienvenido al panel herramienta del admin</h3>
-					<div id="insertPoSDiv">
-						<h4>¿Vas a insertar una película o una serie?</h4>
-						<?php $formularioInsercionPoS = new formularioInsercionPoS("insercionPoS", array( 'action' => 'adminToolPage.php'));
-							$formularioInsercionPoS->gestiona();
-						?>
+					<!----------------------------------------------------------------------------------------------------------->
+					<div id="PoS">
+						<a href="insertaPoS.php">Insertar una Película o Serie</a>
+						<a href="actualizaPoS.php">Actualiza una Película o Serie</a>
+						<a href="borraPoS.php">Borra una Película o Serie</a>
 					</div>
-					<div id="insertActorDiv">
-						<h4>¿Vas a insertar un actor o actriz?</h4>
+					<!----------------------------------------------------------------------------------------------------------->
+					<div id="Actor">
+						<a href="insertaActor.php">Insertar un Actor o Actriz</a>
+						<a href="actualizaActor.php">Actualiza un Actor o Actriz</a>
+						<a href="borraActor.php">Borra un Actor o Actriz</a>
 					</div>
-					<div id="insertPdDiv">
-						<h4>¿Vas a insertar un director?</h4>
-						<?php
-							$formularioInsercionPd = new formularioInsercionPd("insercionPd", array( 'action' => 'adminToolPage.php'));
-							$formularioInsercionPd->gestiona();
-						?>
+					<!----------------------------------------------------------------------------------------------------------->
+					<div id="Pd">
+						<a href="insertaPd.php">Insertar un Director</a>
+						<a href="actualizaPd.php">Actualiza un Director</a>
+						<a href="borraPd.php">Borra un Director</a>
 					</div>
-					<div id="updatePoSDiv">
-						<h4>¿Vas a actualizar una película o una serie?</h4>
-						<?php
-							$formularioActualizacionPoS = new formularioActualizacionPoS("actualizacionPoS", array( 'action' => 'adminToolPage.php'));
-							$formularioActualizacionPoS->gestiona();
-						?>
-					</div>
-					<div id="updatePdDiv">
-						<h4>¿Vas a actualizar un director?</h4>
-						<?php
-							$formularioActualizacionPd = new formularioActualizacionPd("actualizacionPd", array( 'action' => 'adminToolPage.php'));
-							$formularioActualizacionPd->gestiona();
-						?>
-					</div>
-					<div id="deletePoSDiv">
-						<h4>¿Vas a eliminar una película o una serie?</h4>
-						<?php
-							$formularioBorradoPoS = new formularioBorradoPoS("deletePoS", array('action' => 'adminToolPage.php'));
-							$formularioBorradoPoS->gestiona();
-						?>
-					</div>
-					<div id="deletePdDiv">
-						<h4>¿Vas a eliminar a un director?</h4>
-						<?php
-							$formularioBorradoPd = new formularioBorradoPd("deletePd", array('action' => 'adminToolPage.php'));
-							$formularioBorradoPd->gestiona()
-						?>
+					<!----------------------------------------------------------------------------------------------------------->
+					<div id="Cast">
+						<a href="insertaActorComoElenco.php">Insertar un Actor o Actriz como parte de un Elenco</a>
 					</div>
 			<?php
 				}
 			?>
 		</div>
 		<?php
-			require("include/common/footer.php");
+			require('include/common/footer.php');
 		?>
 	</div>
 </body>

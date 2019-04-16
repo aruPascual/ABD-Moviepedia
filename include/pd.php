@@ -1,6 +1,6 @@
 <?php
-require_once("include/aplicacion.php");
-require_once("include/filmserie.php");
+require_once("aplicacion.php");
+require_once("filmserie.php");
 class Pd {
 	private $id;
 	private $name;
@@ -64,10 +64,10 @@ class Pd {
 		if ($rs) {
 			if ($rs->num_rows > 0) {
 				echo <<< END
-				<div class="print">
-				<p class="label">Películas y series dirigidas por </p>$pd->name 
-				</div>
 				<div class="print-movies">
+				<p class="label">Películas y series dirigidas por:</p><p>$pd->name</p>
+				</div>
+				<div class="print-list-movies">
 				END;
 				$i = 0;
 				while ($row = mysqli_fetch_assoc($rs)) {
@@ -139,6 +139,8 @@ class Pd {
 		$success = true;
 		if (!$rs) {
 			$success = false;
+			echo "<p class='red-error'>Error al eliminar un director en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
 		}
 		return $success;
 	}

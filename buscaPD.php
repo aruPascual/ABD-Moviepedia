@@ -1,7 +1,6 @@
 <?php
 	require_once("include/config.php");
 	require_once("include/searchPdForm.php");
-	require_once("include/deletePdForm.php");
 	require_once("include/pd.php");	
 ?>
 <!DOCTYPE html>
@@ -28,7 +27,7 @@
 					<h3>¿Buscas a un director en particular?</h3>
 			<?php
 					$formulario = new formularioBusquedaPd("search", array('action' => "buscaPd.php"));
-					$formulario->gestiona();
+					echo $formulario->gestiona();
 				}
 			?>
 		</div>

@@ -1,6 +1,6 @@
 <?php
-	require("include/config.php");
-	require("include/signupForm.php");
+	require_once("include/config.php");
+	require_once("include/signupForm.php");
 ?>
 <!DOCTYPE html>
 <html>

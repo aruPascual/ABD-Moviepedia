@@ -65,12 +65,12 @@ abstract class Form
         if ( ! $this->formularioEnviado($_POST) ) { //Estamos con GET: Generamos el formulario
             echo $this->generaFormulario();
         } 
-        else {   //Si tenemos un formulario generado
+        else {//Si tenemos un formulario generado
             $result = $this->procesaFormulario($_POST);
             if ( is_array($result) ) {
                 echo $this->generaFormulario($result, $_POST);
             } else {
-                header('Location: '.$result); //Siguiente pagina
+                header('Location: '.$result);//Siguiente pagina
                 exit();
             }
         }  

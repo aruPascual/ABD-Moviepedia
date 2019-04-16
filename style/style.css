@@ -127,6 +127,42 @@ body{
 	padding: 14px 16px;
 }
 
+/*style for filmseries div in admin tool */
+.content #PoS,#Pd,#Actor,#Cast {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+
+	width: 70%;
+
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-top: 2px solid #e9ece5;
+	border-radius: 2px;
+}
+
+/* style for the links that are going to act as buttons */
+.content a {
+	background-color: #c0dfd9;
+	border: none;
+	color: black;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 8px 10px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 2px;
+	font-weight: bold;
+}
+
+.content a:hover {
+	background-color: #e9ece5;
+	color: black;
+}
+
 /* style for searched info div*/
 .print {
 	display: flex;
@@ -134,7 +170,19 @@ body{
 	align-items: center;
 }
 
+/* style for movies by a director or an actor/actress */
 .print-movies {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	margin-top: 10px;
+
+	border-top: 2px solid #c0dfd9;
+}
+
+/* style for the lis of movies */
+.print-list-movies {
 	display: flex;
 	flex-direction: column;
 }
@@ -142,12 +190,6 @@ body{
 /*style for the parragraphs whe searching*/
 .label {
 	font-weight: bold;
-}
-
-/* style for the delete button div */
-.content #deleteForm {
-	margin-top: 15px;
-	border-top: 1px solid black;
 }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
@@ -231,8 +273,9 @@ h4{
 
 /* style for the footer */
 .footer {
+	padding: 25px 16px;
+
 	text-align: center;
 	background-color: #b3c2bf;
 	color: white;
-	padding: 25px 16px;
 }

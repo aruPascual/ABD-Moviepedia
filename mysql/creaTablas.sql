@@ -54,7 +54,7 @@ ALTER TABLE pd ADD PRIMARY KEY (idPd);
 ALTER TABLE pd MODIFY idPd int(32) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE filmserie 
-	ADD CONSTRAINT filmserie_ibfk_1 FOREIGN KEY (directedBy) REFERENCES pd (idPd);
+	ADD CONSTRAINT filmserie_ibfk_1 FOREIGN KEY (directedBy) REFERENCES pd (idPd) ON DELETE CASCADE;
 
 /*--Tabla del elenco--*/
 CREATE TABLE cast (
@@ -65,8 +65,8 @@ CREATE TABLE cast (
 ALTER TABLE cast ADD PRIMARY KEY (idFilm, idActor);
 
 ALTER TABLE cast 
-	ADD CONSTRAINT cast_ibfk_1 FOREIGN KEY (idFilm) REFERENCES filmserie (idFilm),
-	ADD CONSTRAINT cast_ibfk_2 FOREIGN KEY (idActor) REFERENCES actor (idActor);
+	ADD CONSTRAINT cast_ibfk_1 FOREIGN KEY (idFilm) REFERENCES filmserie (idFilm) ON DELETE CASCADE,
+	ADD CONSTRAINT cast_ibfk_2 FOREIGN KEY (idActor) REFERENCES actor (idActor) ON DELETE CASCADE;
 
 /*--Tabla de valoración de peliculas/series--*/
 CREATE TABLE ratingFoS (
@@ -78,8 +78,8 @@ CREATE TABLE ratingFoS (
 ALTER TABLE ratingFoS ADD PRIMARY KEY (idUser, idFilm);
 
 ALTER TABLE ratingFoS
-	ADD CONSTRAINT ratingFoS_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser),
-	ADD CONSTRAINT ratingFoS_ibfk_2 FOREIGN KEY (idFilm) REFERENCES filmserie (idFilm);
+	ADD CONSTRAINT ratingFoS_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser) ON DELETE CASCADE,
+	ADD CONSTRAINT ratingFoS_ibfk_2 FOREIGN KEY (idFilm) REFERENCES filmserie (idFilm) ON DELETE CASCADE;
 
 /*--Tabla de valoración de actores--*/
 CREATE TABLE ratingActor (
@@ -91,8 +91,8 @@ CREATE TABLE ratingActor (
 ALTER TABLE ratingActor ADD PRIMARY KEY (idUser, idActor);
 
 ALTER TABLE ratingActor
-	ADD CONSTRAINT ratingActor_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser),
-	ADD CONSTRAINT ratingActor_ibfk_2 FOREIGN KEY (idActor) REFERENCES actor (idActor);
+	ADD CONSTRAINT ratingActor_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser) ON DELETE CASCADE,
+	ADD CONSTRAINT ratingActor_ibfk_2 FOREIGN KEY (idActor) REFERENCES actor (idActor) ON DELETE CASCADE;
 
 /*--Tabla de valoración e directores--*/
 CREATE TABLE ratingPd (
@@ -104,8 +104,8 @@ CREATE TABLE ratingPd (
 ALTER TABLE ratingPd ADD PRIMARY KEY (idUser, idPd);
 
 ALTER TABLE ratingPd
-	ADD CONSTRAINT ratingPd_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser),
-	ADD CONSTRAINT ratingPd_ibfk_2 FOREIGN KEY (idPd) REFERENCES pd (idPd);
+	ADD CONSTRAINT ratingPd_ibfk_1 FOREIGN KEY (idUser) REFERENCES users (idUser) ON DELETE CASCADE,
+	ADD CONSTRAINT ratingPd_ibfk_2 FOREIGN KEY (idPd) REFERENCES pd (idPd) ON DELETE CASCADE;
 
 /*commit final*/
 COMMIT;

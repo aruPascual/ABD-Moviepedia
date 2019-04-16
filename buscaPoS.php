@@ -27,7 +27,7 @@
 					<h3>¿Buscas una película o una serie?</h3>
 			<?php
 					$formulario = new formularioBusquedaPoS("search", array('action' => 'buscaPoS.php'));
-					$formulario->gestiona();
+					echo $formulario->gestiona();
 				}
 			?>
 		</div>

@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	require_once("include/config.php");
+	require_once("include/searchActorForm.php");
+	require_once("include/actor.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,23 +17,19 @@
 			require("include/common/topnav.php");
 		?>
 		<div class="content">
-			<h3>¿Buscas a un actor o a una actriz en particular?</h3>
-			<form id="search" action="include/busqueda_inc.php" method="get">
-				<p>¿Cómo deseas hacer la búsqueda?</p>
-				<select name="search-by">
-					<option value="nombre">Nombre</option>
-					<option value="birth-date">Fecha de nacimiento</option>
-				</select>
-				<?php
-					if (isset($_GET['error'])) {
-						if ($_GET['error'] == "emptyfields") {
-							echo '<p class="red-error">¡Si no escribes nada no sabemos que buscar!</p>';
-						}
-					}
-				?>
-				<input type="text" name="data">
-				<button type="submit" name="actor-search">Buscar</button>
-			</form>
+			<?php
+				if (isset($_GET['actorName']) && ($_GET['actorName'] != null)) {
+					$actor = Actor::searchActor($_GET['actorName']);
+					Actor::print($actor);
+				}
+				else{
+			?>
+					<h3>¿Buscas a un actor o a una actriz en particular?</h3>
+			<?php
+					$formulario = new formularioBusquedaActor("search", array('action' => "buscaActor.php"));
+					echo $formulario->gestiona();
+				}
+			?>
 		</div>
 		<?php
 			require("include/common/footer.php");

@@ -1,6 +1,6 @@
 <?php
-	require("include/loginForm.php");
-	require("include/config.php")
+	require_once("include/loginForm.php");
+	require_once("include/config.php")
 ?>
 <!DOCTYPE html>
 <html>

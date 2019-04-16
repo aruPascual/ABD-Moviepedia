@@ -1,7 +1,7 @@
 <?php
 require_once("form.php");
-require_once("pd.php");
-class formularioInsercionPd extends Form{
+require_once("actor.php");
+class formularioInsercionActor extends Form{
 	public function  __construct($formId, $opciones = array() ){
         parent::__construct($formId, $opciones);
     }
@@ -18,7 +18,7 @@ class formularioInsercionPd extends Form{
     	$html .= '<input type="text" name="name" placeholder="Nombre">';
         $html .= '<p>¿Cuál es la fecha de nacimiento?</p>';
         $html .= '<input type="date" name="birthDate" placeholder="Fecha de nacimiento">';
-    	$html .= '<button type="submit" name="pd-insert">Insertar</button>';
+    	$html .= '<button type="submit" name="actor-insert">Insertar</button>';
     	$html .= '</div>';
     	return $html;
     }
@@ -27,16 +27,16 @@ class formularioInsercionPd extends Form{
         $erroresFormulario = array();
         $name = isset($datos['name']) ? $datos['name'] : null;
         if ( empty($name) ) {
-            $erroresFormulario[] = "<p class='red-error'>El nombre del director no puede estar vacío</p>";
+            $erroresFormulario[] = "<p class='red-error'>El nombre del actor o actriz no puede estar vacío</p>";
         }
         $birthDate = isset($datos['birthDate']) ? $datos['birthDate'] : null;
         if ( empty($birthDate) ) {
-            $erroresFormulario[] = "<p class='red-error'>La fecha de nacimiento del director no puede estar vacía</p>";
+            $erroresFormulario[] = "<p class='red-error'>La fecha de nacimiento del actor o aztriz no puede estar vacía</p>";
         }
         if (count($erroresFormulario) === 0) {
-            $pd = Pd::create($name, $birthDate);
-			if(!$pd) {
-                $erroresFormulario[] = "<p class='red-error'>Ya existe este director</p>";
+            $actor = Actor::create($name, $birthDate);
+			if(!$actor) {
+                $erroresFormulario[] = "<p class='red-error'>Ya existe este actor o actriz</p>";
             }
             else{
                 return "main_page.php?inserted=".$name;

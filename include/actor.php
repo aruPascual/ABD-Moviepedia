@@ -48,21 +48,13 @@ class Actor{
 	}
 
 	/* muestra por pantalla la información de un actor o una actriz */
-	public static function print($actor){
+	public static function printMovies($actor){
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 		$query = sprintf("SELECT DISTINCT FS.title, FS.releaseDate FROM (actor AC JOIN cast CS) JOIN filmserie FS WHERE AC.idActor = '%d' AND AC.idActor = CS.idActor AND CS.idFilm = FS.idFilm ORDER BY FS.releaseDate"
 			, $conn->real_escape_string($actor->id));
 		$rs = $conn->query($query);
 
-		echo <<< END
-		<div class="print">
-		<p class="label">Nombre: </p>$actor->name
-		</div>
-		<div class="print">
-		<p class="label">Fecha de nacimiento: </p>$actor->birthDate
-		</div>
-		END;
 		if ($rs) {
 			if ($rs->num_rows > 0) {
 				echo <<< END

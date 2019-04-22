@@ -58,10 +58,10 @@ class Actor{
 		if ($rs) {
 			if ($rs->num_rows > 0) {
 				echo <<< END
-				<div class="print-movies">
+				<div class="print" id="movies">
 				<p class="label">Películas y series en las que aparece:</p><p>$actor->name</p>
 				</div>
-				<div class="print-list-movies">
+				<div class="print" id="listMovies">
 				END;
 				$i = 0;
 				while ($row = mysqli_fetch_assoc($rs)) {

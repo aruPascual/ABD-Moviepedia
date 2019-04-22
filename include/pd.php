@@ -53,21 +53,13 @@ class Pd {
 			, $conn->real_escape_string($pd->id));
 		$rs = $conn->query($query);
 
-		echo <<< END
-		<div class="print">
-		<p class="label">Nombre: </p>$pd->name
-		</div>
-		<div class="print">
-		<p class="label">Fecha de nacimiento: </p>$pd->birthDate
-		</div>
-		END;
 		if ($rs) {
 			if ($rs->num_rows > 0) {
 				echo <<< END
-				<div class="print-movies">
+				<div class="print" id="pdAndCast">
 				<p class="label">Películas y series dirigidas por:</p><p>$pd->name</p>
 				</div>
-				<div class="print-list-movies">
+				<div class="print" id="listMovies">
 				END;
 				$i = 0;
 				while ($row = mysqli_fetch_assoc($rs)) {

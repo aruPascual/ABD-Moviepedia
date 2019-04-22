@@ -67,32 +67,41 @@ class Filmserie {
 	}
 
 	/* muestra por pantalla una pelicula o serie */
-	public static function print($movie) {
+	public static function printPdAndCast($movie) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
+
+		$query = sprintf("SELECT AC.name FROM filmserie FS JOIN (actor AC JOIN cast CS) WHERE FS.idFilm = '%d' AND AC.idActor = CS.idActor AND CS.idFilm = FS.idFilm ORDER BY AC.name"
+			, $conn->real_escape_string($movie->id));
+		$rs = $conn->query($query);
+
+		if ($rs) {
+			if ($rs->num_rows > 0) {
+				echo <<< END
+				<div class="print" id="pdAndCast">
+				<p class="label">Actores y actrices que forman parte del elenco:</p>
+				</div>
+				<div class="print" id="listCast">
+				END;
+				$i = 0;
+				while ($row = mysqli_fetch_assoc($rs)) {
+					echo '<p>- '.$row['name'].'</p>';
+				}
+				echo '</div>';
+			}
+			else {
+				echo 'Este actor o actriz parece que no ha participado en ninguna película o serie.';
+			}
+		}
+
 		$query = sprintf("SELECT name FROM filmserie JOIN pd WHERE idFilm = '%d' AND directedBy = idPd"
 			, $conn->real_escape_string($movie->id()));
 		$rs = $conn->query($query);
 		$row = mysqli_fetch_assoc($rs);
-		$pdName = $row['name'];
 
-		echo <<< END
-		<div class="print">
-		<p class="label">Título: </p>$movie->title
-		</div>
-		<div class="print">
-		<p class="label">Fecha de estreno: </p>$movie->releaseDate
-		</div>
-		<div class="print">
-		<p class="label">Género: </p>$movie->genre
-		</div>
-		<div class="print">
-		<p class="label">Duración: </p>$movie->runtime mins
-		</div>
-		<div class="print">
-		<p class="label">Número de episodios: </p>$movie->episodes
-		</div>
-		<div class="print">
+		$pdName = $row['name'];
+		echo <<<END
+		<div class="print" id="pdAndCast">
 		<p class="label">Dirigida por: </p>$pdName
 		</div>
 		END;

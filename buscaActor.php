@@ -10,7 +10,7 @@
 		$usuarioId = $usuario->id();
 		$actor = Actor::searchActor($_POST['actorName']);
 		$actorId = $actor->id();
-		$ratedIndex = $_POST['ratedIndex'];
+		$ratedIndex = $_POST['ratedIndexA'];
 		$ratedIndex++;
 
 		$app = Aplicacion::getInstance();
@@ -40,7 +40,7 @@
 			}
 		}
 
-		exit(json_encode(array('id' => $usuarioId , 'idFilm' => $actorId )));
+		exit(json_encode(array('id' => $usuarioId , 'idActor' => $actorId )));
 	}
 
 	/* mostrar la valoración media */
@@ -51,7 +51,7 @@
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 
-		$query = sprintf("SELECT idActor FROM ratingactor WHERE idActor = '%s'"
+		$query = sprintf("SELECT idActor FROM ratingactor WHERE idActor = '%d'"
 			, $conn->real_escape_string($actorId));
 		$rs = $conn->query($query);
 		$numR;
@@ -59,7 +59,7 @@
 			$numR = $conn->affected_rows;
 		}
 
-		$query = sprintf("SELECT SUM(rating) AS totalRating FROM ratingactor WHERE idActor = '%s'"
+		$query = sprintf("SELECT SUM(rating) AS totalRating FROM ratingactor WHERE idActor = '%d'"
 			, $conn->real_escape_string($actorId));
 		$rs = $conn->query($query);
 		if ($rs) {
@@ -132,20 +132,20 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="  crossorigin="anonymous"></script>
 	<script>
-		var ratedIndex = -1; 
+		var ratedIndexA = -1; 
 		var urlParams = new URLSearchParams(window.location.search);
 		var aName = urlParams.get('actorName');
 
 		$(document).ready(function () {
 			resetColor();
 
-			if (localStorage.getItem('ratedIndex') != null) {
-				setRating(parseInt(localStorage.getItem('ratedIndex')));
+			if (localStorage.getItem('ratedIndexA') != null) {
+				setRating(parseInt(localStorage.getItem('ratedIndexA')));
 			}
 
 			$('.fa-heart').on('click', function (){
-				ratedIndex = parseInt($(this).data('index'));
-				localStorage.setItem('ratedIndex', ratedIndex);
+				ratedIndexA = parseInt($(this).data('index'));
+				localStorage.setItem('ratedIndexA', ratedIndexA);
 				saveToBataBase();
 			});
 
@@ -157,8 +157,8 @@
 
 			$('.fa-heart').mouseleave(function (){
 				resetColor();
-				if (ratedIndex != -1) {
-					setRating(ratedIndex);
+				if (ratedIndexA != -1) {
+					setRating(ratedIndexA);
 				}
 			});
 
@@ -170,7 +170,7 @@
 					data: {
 						save: 1,
 						actorName: aName,
-						ratedIndex: ratedIndex
+						ratedIndex: ratedIndexA
 					}, success: function (r) {
 						userId = r.id;
 						actorId = r.idActor;

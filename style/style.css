@@ -172,8 +172,8 @@ body{
 	align-items: center;
 }
 
-/* style for movies by a director or an actor/actress */
-.print-movies {
+/* style for div showing lists of movies, pd or the cast */
+.print #movies,#pdAndCast {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -183,8 +183,8 @@ body{
 	border-top: 2px solid #c0dfd9;
 }
 
-/* style for the lis of movies */
-.print-list-movies {
+/* style for the list of movies or a cast list */
+.print #listMovies,#listCast {
 	display: flex;
 	flex-direction: column;
 }

@@ -58,7 +58,7 @@ class Actor{
 		if ($rs) {
 			if ($rs->num_rows > 0) {
 				echo <<< END
-				<div class="print" id="movies">
+				<div class="print" id="pdAndCast">
 				<p class="label">Películas y series en las que aparece:</p><p>$actor->name</p>
 				</div>
 				<div class="print" id="listMovies">

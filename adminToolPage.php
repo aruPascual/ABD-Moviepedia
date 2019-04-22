@@ -16,7 +16,7 @@
 		?>
 		<div class="content">
 			<?php
-				if (!isset($_SESSION['login']) || ($_SESSION['login'] == false) || $_SESSION['rol'] === 0) {
+				if (!isset($_SESSION['login']) || ($_SESSION['login'] == false) || ($_SESSION['rol'] == 0)) {
 					echo <<< END
 					<p class="red-error">¡Acceso denegado!</p>
 					<p class="red-error">Este espacio está reservado para los administradores de la página.</p>

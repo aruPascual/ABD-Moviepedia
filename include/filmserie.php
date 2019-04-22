@@ -71,6 +71,7 @@ class Filmserie {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 
+		/* cast */
 		$query = sprintf("SELECT AC.name FROM filmserie FS JOIN (actor AC JOIN cast CS) WHERE FS.idFilm = '%d' AND AC.idActor = CS.idActor AND CS.idFilm = FS.idFilm ORDER BY AC.name"
 			, $conn->real_escape_string($movie->id));
 		$rs = $conn->query($query);
@@ -94,6 +95,7 @@ class Filmserie {
 			}
 		}
 
+		/* pd */
 		$query = sprintf("SELECT name FROM filmserie JOIN pd WHERE idFilm = '%d' AND directedBy = idPd"
 			, $conn->real_escape_string($movie->id()));
 		$rs = $conn->query($query);
@@ -191,5 +193,33 @@ class Filmserie {
 			exit();
 		}
 		return $success;
+	}
+
+	/* devuelve la última varolación otorgada por un usuario */
+	public static function lastRating($usuarioId) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT FS.title,RA.rating FROM ratingfos RA JOIN filmserie FS WHERE RA.idUser = '%d' AND RA.idFilm = FS.idFilm"
+			, $conn->real_escape_string($usuarioId));
+		$rs = $conn->query($query);
+		$result = false;
+		if ($rs) {
+			if ($rs->num_rows > 0) {
+				$result = array();
+				$i = 0;
+				while ($row = mysqli_fetch_assoc($rs)) {
+					$rating = array();
+					$rating[0] = $row['title']; $rating[1] = $row['rating'];
+					$result[$i] = $rating;
+					$i++;
+				}
+			}
+			$rs->free();
+		}
+		else{
+			echo "<p class='red-error'>Error al consultar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $result;
 	}
 }

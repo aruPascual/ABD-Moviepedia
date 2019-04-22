@@ -196,7 +196,7 @@ class Filmserie {
 	}
 
 	/* devuelve la última varolación otorgada por un usuario */
-	public static function lastRating($usuarioId) {
+	public static function rated($usuarioId) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
 		$query = sprintf("SELECT FS.title,RA.rating FROM ratingfos RA JOIN filmserie FS WHERE RA.idUser = '%d' AND RA.idFilm = FS.idFilm"
@@ -217,7 +217,7 @@ class Filmserie {
 			$rs->free();
 		}
 		else{
-			echo "<p class='red-error'>Error al consultar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			echo "<p class='red-error'>Error al consultar los rating de películas o series en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
 			exit();
 		}
 		return $result;

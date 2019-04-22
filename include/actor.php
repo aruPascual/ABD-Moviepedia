@@ -171,4 +171,32 @@ class Actor{
 		}
 		return $success;
 	}
+
+	/* devuelve la última varolación otorgada por un usuario */
+	public static function rated($usuarioId) {
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT AC.name,RA.rating FROM ratingactor RA JOIN actor AC WHERE RA.idUser = '%d' AND RA.idActor = AC.idActor"
+			, $conn->real_escape_string($usuarioId));
+		$rs = $conn->query($query);
+		$result = false;
+		if ($rs) {
+			if ($rs->num_rows > 0) {
+				$result = array();
+				$i = 0;
+				while ($row = mysqli_fetch_assoc($rs)) {
+					$rating = array();
+					$rating[0] = $row['name']; $rating[1] = $row['rating'];
+					$result[$i] = $rating;
+					$i++;
+				}
+			}
+			$rs->free();
+		}
+		else{
+			echo "<p class='red-error'>Error al consultar los rating de actores y actrices en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $result;
+	}
 }

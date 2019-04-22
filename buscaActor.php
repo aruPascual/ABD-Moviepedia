@@ -170,7 +170,7 @@
 					data: {
 						save: 1,
 						actorName: aName,
-						ratedIndex: ratedIndexA
+						ratedIndexA: ratedIndexA
 					}, success: function (r) {
 						userId = r.id;
 						actorId = r.idActor;

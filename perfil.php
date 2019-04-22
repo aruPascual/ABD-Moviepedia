@@ -34,9 +34,9 @@
 					echo <<< END
 					<h3>Bienvenido a tu perfil <i>$userName</i> </h3>
 					END;
-
-					$lastFilmRated = Filmserie::lastRating($userId);
-					if (!$lastFilmRated) {
+					/*------------------------------------------------------------------------------------------------*/
+					$FilmRated = Filmserie::rated($userId);
+					if (!$FilmRated) {
 						echo 'Todavía no has valorado ninguna película o serie.';
 					}
 					else {
@@ -45,7 +45,49 @@
 						<h4>Tus películas y series valoradas</h4>
 						<div class="print" id="listCast">
 						END;
-						foreach ($lastFilmRated as $key => $value) {
+						foreach ($FilmRated as $key => $value) {
+							echo <<< END
+							<p class="label">- $value[0]: $value[1] <i class="fas fa-heart" style="color: red;"></i></p>
+							END;
+						}
+						echo <<< END
+						</div>
+						</div>
+						END;
+					}
+					/*------------------------------------------------------------------------------------------------*/
+					$ActorRated = Actor::rated($userId);
+					if (!$ActorRated) {
+						echo 'Todavía no has valorado ningún actor o actriz.';
+					}
+					else {
+						echo <<< END
+						<div class="print" id="Actor">
+						<h4>Tus actores y actrices valorados</h4>
+						<div class="print" id="listCast">
+						END;
+						foreach ($ActorRated as $key => $value) {
+							echo <<< END
+							<p class="label">- $value[0]: $value[1] <i class="fas fa-heart" style="color: red;"></i></p>
+							END;
+						}
+						echo <<< END
+						</div>
+						</div>
+						END;
+					}
+					/*------------------------------------------------------------------------------------------------*/
+					$PdRated = Pd::rated($userId);
+					if (!$PdRated) {
+						echo 'Todavía no has valorado ningún director.';
+					}
+					else {
+						echo <<< END
+						<div class="print" id="Pd">
+						<h4>Tus directores valorados</h4>
+						<div class="print" id="listCast">
+						END;
+						foreach ($PdRated as $key => $value) {
 							echo <<< END
 							<p class="label">- $value[0]: $value[1] <i class="fas fa-heart" style="color: red;"></i></p>
 							END;

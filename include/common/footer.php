@@ -1,3 +1,3 @@
 <div class="footer">
-	<p>Pie de pagina</p>
+	<a href="webInfo.php">¿Qué es Moviepedia?</a>
 </div>

@@ -294,3 +294,13 @@ h4{
 	background-color: #b3c2bf;
 	color: white;
 }
+
+/* style for footer link */
+.footer a {
+	text-decoration: none;
+	color: white;
+}
+
+.footer a:hover {
+	color: blue;
+}

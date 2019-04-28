@@ -91,7 +91,7 @@ class Filmserie {
 				echo '</div>';
 			}
 			else {
-				echo 'Este actor o actriz parece que no ha participado en ninguna película o serie.';
+				echo 'No sabemos que actores han participado.';
 			}
 		}
 
@@ -195,7 +195,7 @@ class Filmserie {
 		return $success;
 	}
 
-	/* devuelve la última varolación otorgada por un usuario */
+	/* devuelve las varolaciones otorgadas por un usuario */
 	public static function rated($usuarioId) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
@@ -218,6 +218,29 @@ class Filmserie {
 		}
 		else{
 			echo "<p class='red-error'>Error al consultar los rating de películas o series en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $result;
+	}
+
+	/* devuelve el última película o serie introducida en la base de datos */
+	public static function lastFilmserie(){
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT * FROM filmserie FS ORDER BY FS.idFilm DESC LIMIT 1");
+		$rs = $conn->query($query);
+		$result = false;
+		if ($rs) {
+			if ($rs->num_rows == 1) {
+				$row = $rs->fetch_assoc();
+				$movie = new Filmserie($row['title'], $row['releaseDate'], $row['genre'], $row['runtime'], $row['episodes'], $row['directedBy']);
+				$movie->id = $row['idFilm'];
+				$result = $movie;
+			}
+			$rs->free();
+		}
+		else{
+			echo "<p class='red-error'>Error al consultar una película o serie en la BD: (". $conn->errno .") ". utf8_encode($conn->errno) . "</p>";
 			exit();
 		}
 		return $result;

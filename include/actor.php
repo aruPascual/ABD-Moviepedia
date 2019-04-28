@@ -172,7 +172,7 @@ class Actor{
 		return $success;
 	}
 
-	/* devuelve la última varolación otorgada por un usuario */
+	/* devuelve las varolaciones otorgadas por un usuario */
 	public static function rated($usuarioId) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
@@ -195,6 +195,29 @@ class Actor{
 		}
 		else{
 			echo "<p class='red-error'>Error al consultar los rating de actores y actrices en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $result;
+	}
+
+	/* devuelve el último actor o actriz introducido en la base de datos */
+	public static function lastActor(){
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT * FROM actor AC ORDER BY AC.idActor DESC LIMIT 1");
+		$rs = $conn->query($query);
+		$result = false;
+		if ($rs) {
+			if ($rs->num_rows == 1) {
+				$row = $rs->fetch_assoc();
+				$actor = new Actor($row['name'], $row['birthDate']);
+				$actor->id = $row['idActor'];
+				$result = $actor;
+			}
+			$rs->free();
+		}
+		else{
+			echo "<p class='red-error'>Error al consultar un actor o actriz en la BD: (". $conn->errno .") ". utf8_encode($conn->errno) . "</p>";
 			exit();
 		}
 		return $result;

@@ -137,7 +137,7 @@ class Pd {
 		return $success;
 	}
 
-	/* devuelve la última varolación otorgada por un usuario */
+	/* devuelve las varolaciones otorgadas por un usuario */
 	public static function rated($usuarioId) {
 		$app = Aplicacion::getInstance();
 		$conn = $app->conexionBD();
@@ -160,6 +160,29 @@ class Pd {
 		}
 		else{
 			echo "<p class='red-error'>Error al consultar los rating de directores en la BD: (". $conn->errno .") ". utf8_encode($conn->errno). "</p>";
+			exit();
+		}
+		return $result;
+	}
+
+	/* devuelve el último director introducido en la base de datos */
+	public static function lastPd(){
+		$app = Aplicacion::getInstance();
+		$conn = $app->conexionBD();
+		$query = sprintf("SELECT * FROM pd PD ORDER BY PD.idPd DESC LIMIT 1");
+		$rs = $conn->query($query);
+		$result = false;
+		if ($rs) {
+			if ($rs->num_rows == 1) {
+				$row = $rs->fetch_assoc();
+				$pd = new Pd($row['name'], $row['birthDate']);
+				$pd->id = $row['idPd'];
+				$result = $pd;
+			}
+			$rs->free();
+		}
+		else{
+			echo "<p class='red-error'>Error al consultar un director en la BD: (". $conn->errno .") ". utf8_encode($conn->errno) . "</p>";
 			exit();
 		}
 		return $result;
